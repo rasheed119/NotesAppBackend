@@ -42,7 +42,6 @@ router.post("/log-in", async (req, res) => {
     const token = jwt.sign({ _id: findUser._id }, process.env.secretkey);
     const { password: pass, ...userdata } = findUser._doc;
     const response = { ...userdata, token };
-    await client.set(`key-${email}`, JSON.stringify(response));
     res
       .status(200)
       .json({
