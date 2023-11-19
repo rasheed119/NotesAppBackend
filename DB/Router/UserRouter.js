@@ -1,13 +1,8 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import client from "../../redis.js";
 import { UserModal } from "../Model/UserModel.js";
 
-client
-  .connect()
-  .then(() => console.log("Connected to Redis"))
-  .catch((error) => console.log("Error Connecting to Redis", error.message));
 
 const router = express.Router();
 
