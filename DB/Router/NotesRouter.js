@@ -18,10 +18,11 @@ router.post("/create", async (req, res) => {
 router.put("/edit/:_id", async (req, res) => {
   try {
     const { _id } = req.params;
-    const { title, description,status } = req.body;
-    await NotesModel.findByIdAndUpdate(_id, {
-      $set: { title, description,status },
-    });
+    const { title, description } = req.body;
+    await NotesModel.findOneAndUpdate(
+      { _id },
+      { $set: { title, description } }
+    );
     res.status(200).json({ message: "Notes Edited Successfully" });
   } catch (error) {
     console.log(error.message);
@@ -43,7 +44,7 @@ router.delete("/delete/:_id", async (req, res) => {
 router.get("/get/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const find_notes = await NotesModel.find({ user_id : id });
+    const find_notes = await NotesModel.find({ user_id: id });
     res.status(200).json({ find_notes, message: "notes fetched Successfully" });
   } catch (error) {
     console.log(error.message);
@@ -51,5 +52,15 @@ router.get("/get/:id", async (req, res) => {
   }
 });
 
+router.get("/getone/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const find_note = await NotesModel.findOne({ _id: id });
+    res.status(200).json({ find_note });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ Error: `${error.message}` });
+  }
+});
 
 export { router as NotesRouter };
